@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-placeos.placeOsTrigger",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Productivity"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/PlaceOS/n8n-nodes-placeos?tab=readme-ov-file#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/PlaceOS/n8n-nodes-placeos?tab=readme-ov-file"
+			}
+		]
+	}
+}
