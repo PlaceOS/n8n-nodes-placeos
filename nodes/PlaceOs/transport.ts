@@ -239,7 +239,8 @@ export function nextPageFromLink(link: unknown): string | undefined {
 
 /**
  * Lists a collection route. With `limit` set, asks for at most that many rows and stops there;
- * without it, follows Link headers until the last page.
+ * without it, follows Link headers until the last page. `rowsOf` picks the rows out of a page body
+ * for routes that wrap them in an object.
  */
 export async function placeOsRequestList(
 	this: PlaceOsContext,
@@ -247,12 +248,13 @@ export async function placeOsRequestList(
 	qs: IDataObject = {},
 	limit?: number,
 	pageSize = 500,
+	rowsOf: (body: unknown) => IDataObject[] = (body) => (Array.isArray(body) ? (body as IDataObject[]) : []),
 ): Promise<IDataObject[]> {
 	const results: IDataObject[] = [];
 	const firstLimit = limit !== undefined ? Math.min(limit, 10000) : pageSize;
 	let response = await placeOsRequest.call(this, 'GET', path, { qs: { ...qs, limit: firstLimit } });
 	for (let page = 0; page < MAX_PAGES; page++) {
-		const rows = Array.isArray(response.body) ? (response.body as IDataObject[]) : [];
+		const rows = rowsOf(response.body);
 		results.push(...rows);
 		if (limit !== undefined && results.length >= limit) return results.slice(0, limit);
 		const next = nextPageFromLink(response.headers.link ?? response.headers.Link);

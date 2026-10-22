@@ -66,6 +66,25 @@ export function splitList(value: unknown): string[] {
 		.filter((entry) => entry !== '');
 }
 
+/**
+ * Builds the Staff API's extension data filter, `{key:value,other.nested:value}`.
+ * PlaceOS compares every value as text, so number and boolean values never match.
+ */
+export function extensionDataFilter(data: IDataObject): string | undefined {
+	const entries: string[] = [];
+	const walk = (prefix: string, value: unknown) => {
+		if (value && typeof value === 'object' && !Array.isArray(value)) {
+			for (const [key, child] of Object.entries(value as IDataObject)) {
+				walk(prefix ? `${prefix}.${key.replace(/\./g, '\\.')}` : key.replace(/\./g, '\\.'), child);
+			}
+			return;
+		}
+		entries.push(`${prefix}:${String(value)}`);
+	};
+	walk('', data);
+	return entries.length ? `{${entries.join(',')}}` : undefined;
+}
+
 /** Removes keys whose value is undefined, null or an empty string. */
 export function compact(record: IDataObject): IDataObject {
 	const result: IDataObject = {};
