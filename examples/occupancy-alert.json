@@ -1,0 +1,60 @@
+{
+	"name": "PlaceOS: email when a room is over capacity",
+	"nodes": [
+		{
+			"id": "f2b5d1a0-1c51-4f4e-9d0e-1a2b3c4d5e01",
+			"name": "Room occupancy changed",
+			"type": "n8n-nodes-placeos.placeOsTrigger",
+			"typeVersion": 1,
+			"position": [0, 0],
+			"parameters": {
+				"system": { "__rl": true, "mode": "id", "value": "sys-REPLACE_ME" },
+				"bindings": { "binding": [{ "moduleSlug": "Sensor_1", "statusKey": "people" }] },
+				"options": {}
+			}
+		},
+		{
+			"id": "f2b5d1a0-1c51-4f4e-9d0e-1a2b3c4d5e02",
+			"name": "Over capacity?",
+			"type": "n8n-nodes-base.if",
+			"typeVersion": 2.2,
+			"position": [260, 0],
+			"parameters": {
+				"conditions": {
+					"options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2 },
+					"conditions": [
+						{
+							"id": "c1",
+							"leftValue": "={{ $json.value }}",
+							"rightValue": 8,
+							"operator": { "type": "number", "operation": "gt" }
+						}
+					],
+					"combinator": "and"
+				},
+				"looseTypeValidation": true,
+				"options": {}
+			}
+		},
+		{
+			"id": "f2b5d1a0-1c51-4f4e-9d0e-1a2b3c4d5e03",
+			"name": "Email building operations",
+			"type": "n8n-nodes-base.emailSend",
+			"typeVersion": 2.1,
+			"position": [520, -100],
+			"parameters": {
+				"fromEmail": "placeos@example.com",
+				"toEmail": "building-ops@example.com",
+				"subject": "={{ $json.module_slug }} reports {{ $json.value }} people",
+				"emailFormat": "text",
+				"text": "={{ $json.module_slug }} in system {{ $json.system_id }} reported {{ $json.value }} people at {{ $json.received_at }} (previously {{ $json.previous_value }}).",
+				"options": {}
+			}
+		}
+	],
+	"connections": {
+		"Room occupancy changed": { "main": [[{ "node": "Over capacity?", "type": "main", "index": 0 }]] },
+		"Over capacity?": { "main": [[{ "node": "Email building operations", "type": "main", "index": 0 }], []] }
+	},
+	"settings": { "executionOrder": "v1" }
+}

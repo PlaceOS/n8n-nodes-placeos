@@ -1,0 +1,63 @@
+{
+	"name": "PlaceOS: morning summary of desk bookings",
+	"nodes": [
+		{
+			"id": "a7c1e2d3-0000-4000-8000-000000000001",
+			"name": "Every weekday at 7:30",
+			"type": "n8n-nodes-base.scheduleTrigger",
+			"typeVersion": 1.2,
+			"position": [0, 0],
+			"parameters": {
+				"rule": { "interval": [{ "field": "cronExpression", "expression": "30 7 * * 1-5" }] }
+			}
+		},
+		{
+			"id": "a7c1e2d3-0000-4000-8000-000000000002",
+			"name": "Today's desk bookings",
+			"type": "n8n-nodes-placeos.placeOs",
+			"typeVersion": 1,
+			"position": [260, 0],
+			"parameters": {
+				"resource": "booking",
+				"operation": "getAll",
+				"bookingType": "desk",
+				"returnAll": true,
+				"filters": {
+					"periodStart": "={{ $now.startOf('day').toISO() }}",
+					"periodEnd": "={{ $now.endOf('day').toISO() }}",
+					"zoneIds": "zone-REPLACE_WITH_BUILDING"
+				},
+				"simplify": true
+			}
+		},
+		{
+			"id": "a7c1e2d3-0000-4000-8000-000000000003",
+			"name": "Collect them",
+			"type": "n8n-nodes-base.aggregate",
+			"typeVersion": 1,
+			"position": [520, 0],
+			"parameters": { "aggregate": "aggregateAllItemData", "options": {} }
+		},
+		{
+			"id": "a7c1e2d3-0000-4000-8000-000000000004",
+			"name": "Email the summary",
+			"type": "n8n-nodes-base.emailSend",
+			"typeVersion": 2.1,
+			"position": [780, 0],
+			"parameters": {
+				"fromEmail": "placeos@example.com",
+				"toEmail": "facilities@example.com",
+				"subject": "={{ $json.data.length }} desk bookings today",
+				"emailFormat": "text",
+				"text": "={{ $json.data.map(b => `${b.title || b.asset_id}: ${b.user_email}`).join('\\n') }}",
+				"options": {}
+			}
+		}
+	],
+	"connections": {
+		"Every weekday at 7:30": { "main": [[{ "node": "Today's desk bookings", "type": "main", "index": 0 }]] },
+		"Today's desk bookings": { "main": [[{ "node": "Collect them", "type": "main", "index": 0 }]] },
+		"Collect them": { "main": [[{ "node": "Email the summary", "type": "main", "index": 0 }]] }
+	},
+	"settings": { "executionOrder": "v1" }
+}

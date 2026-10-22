@@ -33,7 +33,10 @@
         "typecheck": "tsc -p tsconfig.test.json"
     },
     "files": [
-        "dist"
+        "dist",
+        "!dist/tsconfig.tsbuildinfo",
+        "LICENSE",
+        "README.md"
     ],
     "n8n": {
         "n8nNodesApiVersion": 1,
