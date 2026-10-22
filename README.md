@@ -1,4 +1,4 @@
-# n8n-nodes-placeos
+# @placeos/n8n-nodes-placeos
 
 n8n nodes for [PlaceOS](https://place.technology), the smart building and workplace platform.
 
@@ -25,7 +25,7 @@ platform.
 
 ## Installation
 
-On self-hosted n8n, open **Settings > Community Nodes**, choose **Install**, enter `n8n-nodes-placeos` and
+On self-hosted n8n, open **Settings > Community Nodes**, choose **Install**, enter `@placeos/n8n-nodes-placeos` and
 confirm. See n8n's [community nodes guide](https://docs.n8n.io/integrations/community-nodes/installation/gui-install/).
 
 Once the package is verified by n8n, it also appears in the nodes panel on n8n Cloud and self-hosted instances:
@@ -36,7 +36,7 @@ main and worker instance. The simplest way, from n8n 2.21, is to set these on ev
 
 ```sh
 N8N_COMMUNITY_PACKAGES_MANAGED_BY_ENV=true
-N8N_COMMUNITY_PACKAGES='[{"name":"n8n-nodes-placeos","version":"0.1.0"}]'
+N8N_COMMUNITY_PACKAGES='[{"name":"@placeos/n8n-nodes-placeos","version":"0.1.0"}]'
 ```
 
 Until the package is verified, also set `N8N_UNVERIFIED_PACKAGES_ENABLED=true`.

@@ -4,7 +4,7 @@
 		{
 			"id": "f2b5d1a0-1c51-4f4e-9d0e-1a2b3c4d5e01",
 			"name": "Room occupancy changed",
-			"type": "n8n-nodes-placeos.placeOsTrigger",
+			"type": "@placeos/n8n-nodes-placeos.placeOsTrigger",
 			"typeVersion": 1,
 			"position": [0, 0],
 			"parameters": {

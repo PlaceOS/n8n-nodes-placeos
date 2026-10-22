@@ -1,5 +1,5 @@
 {
-	"node": "n8n-nodes-placeos.placeOsTrigger",
+	"node": "@placeos/n8n-nodes-placeos.placeOsTrigger",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
 	"categories": ["Productivity"],

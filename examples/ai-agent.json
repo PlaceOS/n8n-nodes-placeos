@@ -33,7 +33,7 @@
 		{
 			"id": "b1d2e3f4-0000-4000-8000-000000000004",
 			"name": "Free desks",
-			"type": "n8n-nodes-placeos.placeOsTool",
+			"type": "@placeos/n8n-nodes-placeos.placeOsTool",
 			"typeVersion": 1,
 			"position": [340, 220],
 			"parameters": {
