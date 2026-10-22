@@ -29,7 +29,8 @@
         "release": "n8n-node release",
         "prepublishOnly": "n8n-node prerelease",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "typecheck": "tsc -p tsconfig.test.json"
     },
     "files": [
         "dist"
