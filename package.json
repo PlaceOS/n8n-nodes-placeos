@@ -1,6 +1,6 @@
 {
     "name": "@placeos/n8n-nodes-placeos",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "n8n nodes for PlaceOS: read and control systems, modules, zones and metadata, manage bookings and visitors, and trigger workflows when module status changes",
     "license": "MIT",
     "homepage": "https://github.com/PlaceOS/n8n-nodes-placeos#readme",
